@@ -1,5 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import Header from "../Header/Header";
+import Main from "../Main/Main";
 import "./App.css";
 
 function App() {
@@ -15,8 +16,8 @@ function App() {
           <Route path='/signin'></Route>
           <Route path='/signup'></Route>
         </Switch>
-        <span>MAIN</span>
       </div>
+      <Main></Main>
     </>
   );
 }

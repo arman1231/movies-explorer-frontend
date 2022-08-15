@@ -1,0 +1,64 @@
+.about-project__steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 70px 0 110px 0;
+}
+
+.about-project__step {
+  max-width: 550px;
+}
+
+.about-project__step-title {
+  margin-bottom: 26px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.about-project__step-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__duration {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr 1fr;
+  margin-bottom: 110px;
+}
+
+.about-project__1week {
+  padding: 9px 0 9px 0;
+  background-color: #3ddc84;
+  color: #000000;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.about-project__4weeks {
+  padding: 9px 0 9px 0;
+  background: #303030;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.about-project__text {
+  padding: 14px 0 0 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8b8b8b;
+}
