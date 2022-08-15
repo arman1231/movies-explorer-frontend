@@ -1,0 +1,52 @@
+.about-me__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 66px 0 0 0;
+}
+
+.about-me__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 600px;
+}
+
+.about-me__heading {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+}
+
+.about-me__subtitle {
+  padding: 18px 0 26px 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.about-me__about {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+.about-me__social {
+    padding-top: 99px;
+    display: flex;
+}
+
+.about-me__facebook {
+    margin-right: 20px;
+}
+
+.about-me__picture {
+  width: 270px;
+  height: 327px;
+  object-fit: cover;
+  border-radius: 10px;
+}
