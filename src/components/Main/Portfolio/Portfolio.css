@@ -13,6 +13,12 @@
   border-bottom: 1px solid #424242;
   padding-bottom: 19px;
 }
+
+.portfolio__item:last-child {
+    border-bottom: none;
+    padding-bottom: 125px;
+}
+
 .portfolio__site {
   padding-top: 19px;
   font-style: normal;
