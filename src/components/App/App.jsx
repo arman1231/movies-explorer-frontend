@@ -3,6 +3,7 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Register from "../Register/Register";
+import Login from "../Login/Login";
 import "./App.css";
 
 function App() {
@@ -20,8 +21,9 @@ function App() {
         </Switch>
       </div>
       <Main></Main>
-      <Footer></Footer> */}
-      <Register></Register>
+      <Footer></Footer>
+      <Register></Register> */}
+      <Login></Login>
     </>
   );
 }

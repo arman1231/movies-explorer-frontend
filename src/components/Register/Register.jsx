@@ -39,10 +39,11 @@ export default function Register() {
               onChange={"handleChangePassword"}
               required
             />
+            <span className="register__input-error">Что-то пошло не так...</span>
         </fieldset>
         <fieldset className="register__handlers">
             <button className="register__submit" type="submit">Зарегистрироваться</button>
-            <span className="register__login">Уже зарегистрированы?<Link to=''>Войти</Link></span>
+            <span className="register__login">Уже зарегистрированы? <Link className="register__login-link" to=''>Войти</Link></span>
         </fieldset>
       </form>
     </section>
