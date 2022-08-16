@@ -2,12 +2,13 @@ import { Route, Switch } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
+import Register from "../Register/Register";
 import "./App.css";
 
 function App() {
   return (
     <>      
-      <Header></Header>
+      {/* <Header></Header>
       <div className="container">
         <Switch>
           <Route path='/'></Route>
@@ -19,7 +20,8 @@ function App() {
         </Switch>
       </div>
       <Main></Main>
-      <Footer></Footer>
+      <Footer></Footer> */}
+      <Register></Register>
     </>
   );
 }
