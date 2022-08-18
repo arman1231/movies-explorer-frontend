@@ -1,0 +1,49 @@
+.promo {
+    background-color: #073042;
+}
+.promo__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 75px 0 84px 0;
+  }
+  
+  .promo__title {
+    width: 640px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+  }
+  
+  .promo__subtitle {
+    width: 380px;
+    margin-top: 36px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #ffffff;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+  }
+  
+  .promo__globe {
+    height: 304px;
+    width: 310px;
+  }
+  
+  .promo__button {
+    margin-bottom: 75px;
+    display: inline-block;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    color: white;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 3px;
+  }

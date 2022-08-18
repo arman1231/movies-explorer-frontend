@@ -7,22 +7,21 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import "./App.css";
 import Movies from "../Movies/Movies";
+import SavedMovies from "../SavedMovies/SavedMovies"
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(true);
   return (
     <>      
-      { loggedIn && <Header /> }
-      <div className="container">
+      <Header />
         <Switch>
           <Route exact path='/'><Main /></Route>
           <Route path='/movies'><Movies /></Route>
-          <Route path='/saved-movies'></Route>
+          <Route path='/saved-movies'><SavedMovies /></Route>
           <Route path='/profile'></Route>
           <Route path='/signin'><Login /></Route>
           <Route path='/signup'><Register /></Route>
         </Switch>
-      </div>
       { loggedIn && <Footer /> }
       {/* <Register></Register>
       <Login></Login> */}

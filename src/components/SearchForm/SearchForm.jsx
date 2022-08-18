@@ -1,6 +1,6 @@
 import React from "react";
 import "./SearchForm.css";
-import searchIcon from "../../../images/search.svg";
+import searchIcon from "../../images/search.svg";
 
 export default function SearchForm() {
   return (
