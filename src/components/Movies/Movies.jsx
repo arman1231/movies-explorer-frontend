@@ -21,61 +21,73 @@ export default function Movies() {
       img: p1,
       title: '33 слова о дизайне',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p2,
       title: 'Киноальманах «100 лет дизайна»',
       duration: '1ч 17м',
+      isSaved: true,
     },
     {
       img: p3,
       title: 'В погоне за Бенкси',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p4,
       title: 'Баския: Взрыв реальности',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p5,
       title: 'Бег это свобода',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p6,
       title: 'Книготорговцы',
       duration: '1ч 17м',
+      isSaved: true,
     },
     {
       img: p7,
       title: 'Когда я думаю о Германии ночью',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p8,
       title: 'Gimme Danger: История Игги и The Stooges',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p9,
       title: 'Дженис: Маленькая девочка грустит',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p10,
       title: 'Соберись перед прыжком',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p11,
       title: 'Пи Джей Харви: A dog called money',
       duration: '1ч 17м',
+      isSaved: false,
     },
     {
       img: p12,
       title: 'По волнам: Искусство звука в кино',
       duration: '1ч 17м',
+      isSaved: false,
     },
   ];
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import myself from "../../../images/myself.jpeg";
+import myself from "../../images/myself.jpeg";
 import "./AboutMe.css";
 
 export default function AboutMe() {

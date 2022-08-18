@@ -13,7 +13,7 @@ export default function MoviesCardList({ movies }) {
         {
           movies.map((movie) => {
             return (
-              <MoviesCard image={movie.img} title={movie.title} duration={movie.duration} />
+              <MoviesCard image={movie.img} title={movie.title} duration={movie.duration} isSaved={movie.isSaved}/>
             );
           })
         }

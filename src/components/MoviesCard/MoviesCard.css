@@ -6,12 +6,8 @@
   position: relative;
 }
 
-.movie-card__image {
-  width: 100%;
-  border-radius: 6px;
-}
-
 .movie-card__savebtn {
+  display: none;
   position: absolute;
   top: 14px;
   right: 14px;
@@ -24,7 +20,40 @@
   line-height: 9px;
   text-align: center;
   color: #ffffff;
+  cursor: pointer;
 }
+.movie-card__saved-icon {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.movie-card__remove-from-saved-icon {
+  display: none;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+.movie-card__image:hover + .movie-card__savebtn {
+  display: block;
+}
+
+.movie-card__image:hover ~ .movie-card__saved-icon {
+  display: none;
+}
+
+.movie-card__image:hover + .movie-card__remove-from-saved-icon {
+  display: block;
+}
+
+.movie-card__image {
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+
+
 
 .movie-card__info {
   display: flex;

@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Promo.css";
 import { Link } from 'react-router-dom';
-import globe from '../../../images/globe.svg';
+import globe from '../../images/globe.svg';
 
 export default function Promo() {
   return (
