@@ -14,7 +14,8 @@ export default function AboutMe() {
               Frontend Software Engineer, 31 
             </span>
             <span className="about-me__about">
-            Born in Erevan, Armenia.  Now based in LA. I majored in Coputer Sience in MESI. Got wife and baby daugther. Love to play chess and jog occasionaly. Started coding back in 2008. Mainly got freelance experiece.
+            Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
+и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
             </span>
             <div className="about-me__social">
                 <span className="about-me__facebook">Facebook</span>
