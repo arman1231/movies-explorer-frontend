@@ -95,7 +95,7 @@ export default function Movies() {
       <div className="container">
         <SearchForm />
         <MoviesCardList movies={movies} />
-        <button className="movies__loadmore">Ещё</button>
+        <button className="movies__loadmore button">Ещё</button>
       </div>
     </section>
   );

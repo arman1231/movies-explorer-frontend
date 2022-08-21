@@ -11,7 +11,7 @@ export default function SearchForm() {
           src={searchIcon}
           alt="иконка поиска"
         />
-        <button className="search-form__submit" type="submit">
+        <button className="search-form__submit button" type="submit">
           Найти
         </button>
         <input className="search-form__input" type="text" placeholder="Фильм" />

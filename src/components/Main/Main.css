@@ -13,3 +13,12 @@
     letter-spacing: -0.04em;
     border-bottom: 1px solid #dadada;
   }
+
+  @media screen and (max-width: 767px) and (min-width: 320px) {
+    .screen-heading {
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 22px;
+        letter-spacing: -0.04em;
+    }
+  }

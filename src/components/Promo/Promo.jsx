@@ -9,12 +9,12 @@ export default function Promo() {
         <div className="container">
         <div className='promo__content'>
                 <div className="promo_text">
-                    <div className="promo__title">Учебный проект студента факультета Веб-разработки.</div>
-                    <div className="promo__subtitle">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</div>
+                    <h1 className="promo__title">Учебный проект студента факультета Веб-разработки.</h1>
+                    <span className="promo__subtitle">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</span>
                 </div>
                 <img className='promo__globe' src={globe} alt="logo" />
             </div>
-            <Link to='' className="promo__button">
+            <Link to={{ pathname: 'https://practicum.yandex.ru/web/' }} target="_blank" className="promo__button link">
                 Узнать больше
             </Link>
         </div>

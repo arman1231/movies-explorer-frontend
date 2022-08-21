@@ -34,10 +34,10 @@ export default function Profile() {
               При обновлении профиля произошла ошибка.
             </span>
             <button className="profile__edit-button">Редактировать</button>
-            <button className="profile__submit-button" type="submit">
+            <button className="profile__submit-button button" type="submit">
               Сохранить
             </button>
-            <button className="profile__logout-button">
+            <button className="profile__logout-button button">
               Выйти из аккаунта
             </button>
           </fieldset>

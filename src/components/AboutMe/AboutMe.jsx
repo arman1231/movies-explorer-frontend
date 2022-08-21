@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import myself from "../../images/myself.jpeg";
 import "./AboutMe.css";
 
@@ -18,8 +19,8 @@ export default function AboutMe() {
 и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
             </span>
             <div className="about-me__social">
-                <span className="about-me__facebook">Facebook</span>
-                <span className="about-me__github">Github</span>
+                {/* <Link className="about-me__link">Facebook</Link> */}
+                <Link  to={{ pathname: 'https://github.com/arman1231' }} target="_blank" className="about-me__link link">Github</Link>
             </div>
           </div>
           <img className="about-me__picture" src={myself} alt="student" />

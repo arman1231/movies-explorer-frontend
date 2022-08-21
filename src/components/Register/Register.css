@@ -69,7 +69,7 @@
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
-  color: #EE3465;
+  color: #ee3465;
 }
 
 .register__handlers {
@@ -113,4 +113,14 @@
   line-height: 17px;
   text-align: center;
   color: #4285f4;
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .register {
+    width: 230px;
+    align-items: center;
+  }
+  .register__heading {
+    font-size: 23px;
+  }
 }

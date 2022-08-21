@@ -1,12 +1,12 @@
 .about-project__steps {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 70px 0 110px 0;
 }
 
 .about-project__step {
-  max-width: 550px;
+  width: 100%;
 }
 
 .about-project__step-title {
@@ -61,4 +61,45 @@
   line-height: 17px;
   text-align: center;
   color: #8b8b8b;
+}
+
+@media screen and (max-width: 767px) and (min-width: 320px) {
+  .about-project__step-title {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+  .about-project__step-text {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .about-project__steps {
+    flex-wrap: wrap;
+    padding: 60px 0 60px 0;
+  }
+  .about-project__step:first-child {
+    margin-bottom: 56px;
+  }
+  .about-project__duration {
+    margin-bottom: 93px;
+  }
+  .about-project__1week {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+  }
+  .about-project__4weeks {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+  }
+  .about-project__text {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }

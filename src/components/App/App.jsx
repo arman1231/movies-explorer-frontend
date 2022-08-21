@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -12,10 +12,11 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [isLoggedIn, setLoggedIn] = React.useState(true);
+  const location = useLocation();
   return (
     <>      
-     { loggedIn && <Header />} 
+     { isLoggedIn && <Header isLoggedIn={isLoggedIn} />} 
         <Switch>
           <Route exact path='/'><Main /></Route>
           <Route path='/movies'><Movies /></Route>
@@ -25,7 +26,7 @@ function App() {
           <Route path='/signup'><Register /></Route>
           <Route path="*"><NotFound /></Route>
         </Switch>
-      { loggedIn && <Footer /> }
+      { isLoggedIn && <Footer /> }
     </>
   );
 }

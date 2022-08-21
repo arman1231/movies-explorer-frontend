@@ -24,7 +24,7 @@ export default function MoviesCard({ image, title, duration, isSaved }) {
             />
           </>
         ) : (
-          <span className="movie-card__savebtn">Сохранить</span>
+          <span className="movie-card__savebtn button">Сохранить</span>
         )}
       </div>
 
