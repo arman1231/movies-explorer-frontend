@@ -10,21 +10,21 @@ export default function MoviesCard({ image, title, duration, isSaved }) {
         <img className="movie-card__image" src={image} alt="pic 1" />
         {isSaved ? (
           <>
-            
-
-            <img
-              className="movie-card__remove-from-saved-icon"
-              src={removeSavedIcon}
-              alt="Удалить из сохраненных"
-            />
-                        <img
-              className="movie-card__saved-icon"
-              src={savedIcon}
-              alt="Сохранено"
-            />
+            <button className="movie-card__remove-from-saved-icon">
+              <img
+                src={removeSavedIcon}
+                alt="Удалить из сохраненных"
+              />
+            </button>
+            <button className="movie-card__saved-icon">
+              <img
+                src={savedIcon}
+                alt="Сохранено"
+              />
+            </button>
           </>
         ) : (
-          <span className="movie-card__savebtn button">Сохранить</span>
+          <button className="movie-card__savebtn button">Сохранить</button>
         )}
       </div>
 

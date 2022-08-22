@@ -13,6 +13,7 @@
 }
 
 .search-form__input {
+  box-sizing: border-box;
   padding-bottom: 15px;
   width: 100%;
   border: none;
@@ -26,7 +27,9 @@
 }
 
 .search-form__input:focus {
-  border: none;
+  box-sizing: border-box;
+  border-bottom: 1px white solid;
+  margin-bottom: -1px;
   outline: none;
 }
 
