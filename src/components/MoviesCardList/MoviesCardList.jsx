@@ -3,7 +3,7 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 
-export default function MoviesCardList({ movies }) {
+export default function MoviesCardList({ initialMovies }) {
 
   return (
       <section className="movies-card-list">
@@ -11,9 +11,9 @@ export default function MoviesCardList({ movies }) {
           return <MoviesCard />;
         })} */}
         {
-          movies.map((movie) => {
+          initialMovies.map((movie) => {
             return (
-              <MoviesCard image={movie.img} title={movie.title} duration={movie.duration} isSaved={movie.isSaved}/>
+              <MoviesCard image={movie.image.url} nameRU={movie.nameRU} duration={movie.duration} isSaved={movie.isSaved} key={movie.id} />
             );
           })
         }

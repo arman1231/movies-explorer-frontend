@@ -14,8 +14,9 @@ import p9 from "../../images/9.jpg";
 import p10 from "../../images/10.jpg";
 import p11 from "../../images/11.jpg";
 import p12 from "../../images/12.jpg";
+import { moviesApi } from "../../utils/MoviesApi";
 
-export default function Movies() {
+export default function Movies({ initialMovies }) {
   const movies = [
     {
       img: p1,
@@ -90,11 +91,15 @@ export default function Movies() {
       isSaved: false,
     },
   ];
+  // const movies2 = moviesApi.getMovies().then((res) => {
+  //   console.log(res);
+  // }).catch((error) => console.log(error));
+  console.log(initialMovies);
   return (
     <section className="movies">
       <div className="container">
         <SearchForm />
-        <MoviesCardList movies={movies} />
+        <MoviesCardList initialMovies={initialMovies} />
         <button className="movies__loadmore button">Ещё</button>
       </div>
     </section>
