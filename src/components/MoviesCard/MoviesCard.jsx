@@ -2,15 +2,17 @@ import React from "react";
 import "./MoviesCard.css";
 import savedIcon from "../../images/saved-icon.svg";
 import removeSavedIcon from "../../images/remove-from-saved-icon.svg";
+import { Link } from "react-router-dom";
 
-export default function MoviesCard({ image, nameRU, duration, isSaved }) {
+export default function MoviesCard({ image, nameRU, duration, isSaved, trailerLink }) {
   function hoursPattern(duration) {
     return `${Math.floor(duration/60)}ч${Math.round((duration/60 - Math.floor(duration/60))*60)}м`
-  }
+  };
   return (
     <div className="movie-card">
       <div className="movie-card__image-wrap">
-        <img className="movie-card__image" src={`https://api.nomoreparties.co/${image}`} alt="pic 1" />
+        <Link to={{ pathname: `${trailerLink}` }} target="_blank"></Link>
+        <img className="movie-card__image" src={`https://api.nomoreparties.co/${image}`} alt={nameRU} />
         {isSaved ? (
           <>
             <button className="movie-card__remove-from-saved-icon">

@@ -1,11 +1,11 @@
 import React from "react";
+import "./App.css";
 import { Route, Switch, useLocation } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-import "./App.css";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
