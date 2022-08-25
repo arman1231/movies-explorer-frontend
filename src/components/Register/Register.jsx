@@ -4,6 +4,10 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 
 export default function Register() {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  
   return (
     <section className="register">
       <div className="register__wrapper"></div>
