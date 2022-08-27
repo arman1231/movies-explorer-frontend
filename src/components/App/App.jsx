@@ -12,7 +12,7 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import { moviesApi } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
   const history = useHistory();
@@ -58,7 +58,6 @@ function App() {
         } else {
           setCurrentUser(user);
           setIsLoggedIn(true);
-          console.log(user);
         }
       })
       .catch((err) => console.log(err));
@@ -94,6 +93,27 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  function handleProfileSubmit(name, email) {
+    mainApi
+      .updateUser(name, email)
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleLogout() {
+    mainApi
+      .logout()
+      .then(()=> {
+        setIsLoggedIn(false);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
@@ -108,8 +128,8 @@ function App() {
           <Route path="/saved-movies">
             <SavedMovies />
           </Route>
-          <Route path="/profile">
-            <Profile />
+          <Route path="/profile" handleProfileSubmit={handleProfileSubmit}>
+            <Profile handleLogout={handleLogout} />
           </Route>
           <Route path="/signin">
             <Login handleLoginSubmit={handleLoginSubmit} />

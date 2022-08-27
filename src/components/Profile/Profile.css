@@ -101,6 +101,11 @@
   cursor: pointer;
 }
 
+.profile__edit-button:disabled { 
+  background-color: transparent;
+  color: #ffffff;
+}
+
 .profile__submit-button {
   display: none;
   width: 100%;

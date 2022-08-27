@@ -16,6 +16,7 @@ class MainApi {
     return fetch(`${this._baseUrl}/signout`, {
       method: "POST",
       headers: this._headers,
+      credentials: "include"
     })
       .then(this._checkResponse)
       .then((res) => {
@@ -56,6 +57,18 @@ class MainApi {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
       credentials: 'include',
+    }).then(this._checkResponse);
+  }
+
+  updateUser({ name, email }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        name: name,
+        about: email,
+      }),
     }).then(this._checkResponse);
   }
 }
