@@ -18,7 +18,7 @@ export default function Header({ isLoggedIn }) {
         return headerClass;
       case "/":
         headerClass = "header header_index-page";
-        isLoggedIn = false;
+        // isLoggedIn ? headerClass = "header" : headerClass = "header header_index-page";
         return headerClass;
       default:
         headerClass = "header";
@@ -32,7 +32,8 @@ export default function Header({ isLoggedIn }) {
   }
 
   return (
-    <header
+    <header 
+    // className="header"
       className={
         defineClassName()
         // location.pathname === "/" ? "header header_index-page" : "header"

@@ -1,7 +1,10 @@
 import React from "react";
 import "./Profile.css";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 export default function Profile() {
+  const currentUser = React.useContext(CurrentUserContext);
+  console.log(currentUser);
   return (
     <section className="profile">
       <div className="container">

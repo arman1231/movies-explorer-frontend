@@ -51,6 +51,13 @@ class MainApi {
       })
       .catch((err) => console.log(err));
   }
+
+  getUser() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: this._headers,
+      credentials: 'include',
+    }).then(this._checkResponse);
+  }
 }
 
 export const mainApi = new MainApi({

@@ -7,7 +7,7 @@ import p2 from "../../images/2.jpg";
 import p3 from "../../images/3.jpg";
 
 export default function SavedMovies() {
-  const savedMovies = [
+  const initialMovies = [
     {
       img: p1,
       title: "33 слова о дизайне",
@@ -32,7 +32,7 @@ export default function SavedMovies() {
     <section className="saved-movies">
       <div className="container">
         <SearchForm />
-        <MoviesCardList movies={savedMovies} />
+        <MoviesCardList initialMovies={initialMovies} />
       </div>
     </section>
   );

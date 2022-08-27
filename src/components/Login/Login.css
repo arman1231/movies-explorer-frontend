@@ -36,6 +36,7 @@
   }
   
   .login__label {
+    margin-top: 26px;
     padding-bottom: 10px;
     font-style: normal;
     font-weight: 400;
@@ -44,12 +45,21 @@
     color: #8b8b8b;
   }
   
+  .login__label:first-child {
+    margin-top: 0px;
+  }
+  
   .login__input {
     padding: 15px 0 15px 15px;
     margin-bottom: 20px;
     background-color: #2f2f2f;
     border: none;
     border-radius: 8px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: white;
   }
   
   .login__input::placeholder {
