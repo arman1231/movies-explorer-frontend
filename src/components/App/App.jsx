@@ -13,42 +13,58 @@ import NotFound from "../NotFound/NotFound";
 import { moviesApi } from "../../utils/MoviesApi";
 import { mainApi } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { useCurrentWidth } from "../../hooks/useCurrentWidth";
+import { defineLoadMoreStep, defineCardsPerPageCount } from '../../utils/loadMoreConditions';
 
 function App() {
   const history = useHistory();
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const [initialMovies, setInitialMovies] = React.useState([]);
+  const [filteredMovies, setFilteredMovies] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
   const [responseMessage, setResponseMessage] = React.useState("");
+  const width = useCurrentWidth();
+  const [visibleMoviesCount, setVisibleMoviesCount] = React.useState(defineCardsPerPageCount(width));
   const location = useLocation();
 
-  function checkToken() {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
-      if (jwt) {
-        mainApi.getContent(jwt).then((res) => {
-          if (res) {
-            setIsLoggedIn(true);
-            history.push("/");
-          }
-        });
-      }
-    }
+  function fetchMovies() {
+    moviesApi
+      .getMovies()
+      .then((movies) => {
+        console.log(movies);
+        setInitialMovies(movies);
+        localStorage.setItem("movies", JSON.stringify(movies));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
-
-  React.useEffect(() => {}, []);
 
   React.useEffect(() => {
     if (isLoggedIn) {
-      moviesApi
-        .getMovies()
-        .then((movies) => {
-          setInitialMovies(movies);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const localMovies = localStorage.getItem("movies");
+      if (localMovies) {
+        try {
+          setInitialMovies(JSON.parse(localMovies));
+        } catch (err) {
+          localStorage.removeItem("movies");
+          fetchMovies();
+        }
+      } else {
+        fetchMovies();
+      }
     }
+
+    mainApi.getSavedMovies()
+      .then((movies) => {
+
+        setSavedMovies(movies)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
 
     mainApi
       .getUser()
@@ -62,7 +78,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }, [isLoggedIn]);
-
+  
   function handleRegisterSubmit(name, email, password) {
     mainApi
       .createUser(name, email, password)
@@ -95,7 +111,7 @@ function App() {
 
   function handleProfileSubmit(name, email) {
     mainApi
-      .updateUser(name, email)
+      .updateUser({ name, email })
       .then((res) => {
         setCurrentUser(res);
       })
@@ -107,13 +123,47 @@ function App() {
   function handleLogout() {
     mainApi
       .logout()
-      .then(()=> {
+      .then(() => {
         setIsLoggedIn(false);
         history.push("/");
       })
       .catch((err) => console.log(err));
   }
 
+  function handleSearchSubmit(search) {
+    const filteredMovies = initialMovies.filter((movie) => {
+      return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
+    setFilteredMovies(filteredMovies);
+  }
+
+  function handleLoadMoreClick() {
+    setVisibleMoviesCount((prevCount) => prevCount + defineLoadMoreStep(width));
+  }
+
+  function getSavedMovies() {    
+    console.log("click");
+    mainApi.getSavedMovies()
+      .then((movies) => {
+        console.log(movies);
+        setSavedMovies(movies)
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  function handleSaveMovie(movie) {
+    mainApi.saveMovie(movie)
+      .then((newMovie) => {
+        console.log(newMovie);
+        console.log(savedMovies);
+        localStorage.setItem("savedMovies", JSON.stringify(newMovie));
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
@@ -122,15 +172,32 @@ function App() {
           <Route exact path="/">
             <Main />
           </Route>
-          <Route path="/movies">
-            <Movies initialMovies={initialMovies} />
-          </Route>
-          <Route path="/saved-movies">
-            <SavedMovies />
-          </Route>
-          <Route path="/profile" handleProfileSubmit={handleProfileSubmit}>
-            <Profile handleLogout={handleLogout} />
-          </Route>
+          <ProtectedRoute
+            path="/movies"
+            isLoggedIn={isLoggedIn}
+            component={Movies}
+            filteredMovies={filteredMovies}
+            handleSearchSubmit={handleSearchSubmit}
+            visibleMoviesCount={visibleMoviesCount}
+            handleLoadMoreClick={handleLoadMoreClick}
+            handleSaveMovie={handleSaveMovie}
+          />
+          <ProtectedRoute
+            path="/saved-movies"
+            isLoggedIn={isLoggedIn}
+            component={SavedMovies}
+            handleSearchSubmit={handleSearchSubmit}
+            visibleMoviesCount={visibleMoviesCount}
+            savedMovies={savedMovies}
+            getSavedMovies={getSavedMovies}
+          />
+          <ProtectedRoute
+            path="/profile"
+            isLoggedIn={isLoggedIn}
+            component={Profile}
+            handleLogout={handleLogout}
+            handleProfileSubmit={handleProfileSubmit}
+          />
           <Route path="/signin">
             <Login handleLoginSubmit={handleLoginSubmit} />
           </Route>

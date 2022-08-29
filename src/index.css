@@ -16,6 +16,10 @@ body {
   display: none;
 }
 
+.show {
+  display: block;
+}
+
 .link{
   opacity: 1;
   transition: opacity 0.2s ease-in-out;

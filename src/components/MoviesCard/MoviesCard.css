@@ -7,7 +7,6 @@
 }
 
 .movie-card__savebtn {
-  display: none;
   position: absolute;
   top: 14px;
   right: 14px;
@@ -22,6 +21,10 @@
   color: #ffffff;
   cursor: pointer;
   border: none;
+  transition: all 0.1s ease-in-out;
+}
+.movie-card__savebtn:hover {
+  transform: scale(1.1);
 }
 .movie-card__saved-icon {
   border: none;

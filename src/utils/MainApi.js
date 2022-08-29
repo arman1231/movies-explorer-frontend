@@ -16,7 +16,7 @@ class MainApi {
     return fetch(`${this._baseUrl}/signout`, {
       method: "POST",
       headers: this._headers,
-      credentials: "include"
+      credentials: "include",
     })
       .then(this._checkResponse)
       .then((res) => {
@@ -56,7 +56,7 @@ class MainApi {
   getUser() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-      credentials: 'include',
+      credentials: "include",
     }).then(this._checkResponse);
   }
 
@@ -64,12 +64,47 @@ class MainApi {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: this._headers,
-      credentials: 'include',
-      body: JSON.stringify({
-        name: name,
-        about: email,
-      }),
+      credentials: "include",
+      body: JSON.stringify({ name, email }),
     }).then(this._checkResponse);
+  }
+
+  getSavedMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
+      headers: this._headers,
+      credentials: "include",
+    })
+      .then(this._checkResponse)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  saveMovie(movie) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "POST",
+      headers: this._headers,
+      credentials: "include",
+      body: JSON.stringify({
+        country: (movie.country ? movie.country : 'Empty'),
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `https://api.nomoreparties.co/${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        nameRU: movie.nameRU,
+        nameEN: (movie.nameEN ? movie.nameEN : 'Empty'),
+        thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id,
+      }),
+    })
+      .then(this._checkResponse)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => console.log(err));
   }
 }
 

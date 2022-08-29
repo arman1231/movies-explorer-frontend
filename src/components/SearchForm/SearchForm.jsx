@@ -2,9 +2,18 @@ import React from "react";
 import "./SearchForm.css";
 import searchIcon from "../../images/search.svg";
 
-export default function SearchForm() {
+export default function SearchForm({ handleSearchSubmit }) {
+  const [search, setSearch] = React.useState('')
+  function handleSubmit(e) {
+    e.preventDefault();
+    handleSearchSubmit(search);
+  }
+
+  function handleChangeSearch(e) {
+    setSearch(e.target.value);
+  }
   return (
-    <form className="search-form">
+    <form className="search-form" onSubmit={handleSubmit} noValidate>
       <fieldset className="search-form__data">
         <img
           className="search-form__icon"
@@ -14,7 +23,7 @@ export default function SearchForm() {
         <button className="search-form__submit button" type="submit">
           Найти
         </button>
-        <input className="search-form__input" type="text" placeholder="Фильм"  required/>
+        <input className="search-form__input" type="text" placeholder="Фильм" value={search || ''} onChange={handleChangeSearch} required/>
       </fieldset>
       <div className="search-form__controls">
         <label className="search-form__switch">
