@@ -15,7 +15,10 @@ import { mainApi } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { useCurrentWidth } from "../../hooks/useCurrentWidth";
-import { defineLoadMoreStep, defineCardsPerPageCount } from '../../utils/loadMoreConditions';
+import {
+  defineLoadMoreStep,
+  defineCardsPerPageCount,
+} from "../../utils/loadMoreConditions";
 
 function App() {
   const history = useHistory();
@@ -26,14 +29,15 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [responseMessage, setResponseMessage] = React.useState("");
   const width = useCurrentWidth();
-  const [visibleMoviesCount, setVisibleMoviesCount] = React.useState(defineCardsPerPageCount(width));
+  const [visibleMoviesCount, setVisibleMoviesCount] = React.useState(
+    defineCardsPerPageCount(width)
+  );
   const location = useLocation();
 
   function fetchMovies() {
     moviesApi
       .getMovies()
       .then((movies) => {
-        console.log(movies);
         setInitialMovies(movies);
         localStorage.setItem("movies", JSON.stringify(movies));
       })
@@ -41,6 +45,32 @@ function App() {
         console.log(error);
       });
   }
+  React.useEffect(() => {
+    mainApi
+      .getUser()
+      .then((user) => {
+        if (!user) {
+          console.log("Вы не авторизованны");
+        } else {
+          setCurrentUser(user);
+          setIsLoggedIn(true);
+        }
+      })
+      .catch((err) => {
+        setIsLoggedIn(false);
+        setCurrentUser({});
+        setSavedMovies([]);
+        setInitialMovies([]);
+        localStorage.clear();
+        console.log(err);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      getSavedMovies();
+    }
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -56,29 +86,8 @@ function App() {
         fetchMovies();
       }
     }
-
-    mainApi.getSavedMovies()
-      .then((movies) => {
-
-        setSavedMovies(movies)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-
-    mainApi
-      .getUser()
-      .then((user) => {
-        if (!user) {
-          console.log("Вы не авторизованны");
-        } else {
-          setCurrentUser(user);
-          setIsLoggedIn(true);
-        }
-      })
-      .catch((err) => console.log(err));
   }, [isLoggedIn]);
-  
+
   function handleRegisterSubmit(name, email, password) {
     mainApi
       .createUser(name, email, password)
@@ -141,77 +150,105 @@ function App() {
     setVisibleMoviesCount((prevCount) => prevCount + defineLoadMoreStep(width));
   }
 
-  function getSavedMovies() {    
-    console.log("click");
-    mainApi.getSavedMovies()
+  function getSavedMovies() {
+    mainApi
+      .getSavedMovies()
       .then((movies) => {
         console.log(movies);
-        setSavedMovies(movies)
+        setSavedMovies(movies);
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   function handleSaveMovie(movie) {
-    mainApi.saveMovie(movie)
+    mainApi
+      .saveMovie(movie)
       .then((newMovie) => {
-        console.log(newMovie);
-        console.log(savedMovies);
-        localStorage.setItem("savedMovies", JSON.stringify(newMovie));
+        setSavedMovies([newMovie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(err);
+      });
+  }
+
+  function handleSavedMoviesSearch() {
+    mainApi
+      .getSavedMovies()
+      .then((movies) => {
+        setSavedMovies(movies);
       })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function deleteMovieFromSaved(savedMovieId) {
+    mainApi
+      .deleteMovieFromSaved(savedMovieId)
+      .then(() => {
+        setSavedMovies((prevState) =>
+          prevState.filter((item) => item._id !== savedMovieId)
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isLoggedIn={isLoggedIn} />
-        <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-          <ProtectedRoute
-            path="/movies"
-            isLoggedIn={isLoggedIn}
-            component={Movies}
-            filteredMovies={filteredMovies}
-            handleSearchSubmit={handleSearchSubmit}
-            visibleMoviesCount={visibleMoviesCount}
-            handleLoadMoreClick={handleLoadMoreClick}
-            handleSaveMovie={handleSaveMovie}
-          />
-          <ProtectedRoute
-            path="/saved-movies"
-            isLoggedIn={isLoggedIn}
-            component={SavedMovies}
-            handleSearchSubmit={handleSearchSubmit}
-            visibleMoviesCount={visibleMoviesCount}
-            savedMovies={savedMovies}
-            getSavedMovies={getSavedMovies}
-          />
-          <ProtectedRoute
-            path="/profile"
-            isLoggedIn={isLoggedIn}
-            component={Profile}
-            handleLogout={handleLogout}
-            handleProfileSubmit={handleProfileSubmit}
-          />
-          <Route path="/signin">
-            <Login handleLoginSubmit={handleLoginSubmit} />
-          </Route>
-          <Route path="/signup">
-            <Register
-              handleRegisterSubmit={handleRegisterSubmit}
-              responseMessage={responseMessage}
+        <div className="page">
+          <Header isLoggedIn={isLoggedIn} />
+          <Switch>
+            <Route exact path="/">
+              <Main />
+            </Route>
+            <ProtectedRoute
+              path="/movies"
+              isLoggedIn={isLoggedIn}
+              component={Movies}
+              filteredMovies={filteredMovies}
+              savedMovies={savedMovies}
+              handleSearchSubmit={handleSearchSubmit}
+              visibleMoviesCount={visibleMoviesCount}
+              handleLoadMoreClick={handleLoadMoreClick}
+              handleSaveMovie={handleSaveMovie}
+              deleteMovieFromSaved={deleteMovieFromSaved}
             />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-        <Footer />
+            <ProtectedRoute
+              path="/saved-movies"
+              isLoggedIn={isLoggedIn}
+              component={SavedMovies}
+              handleSearchSubmit={handleSearchSubmit}
+              visibleMoviesCount={visibleMoviesCount}
+              savedMovies={savedMovies}
+              getSavedMovies={getSavedMovies}
+              deleteMovieFromSaved={deleteMovieFromSaved}
+            />
+            <ProtectedRoute
+              path="/profile"
+              isLoggedIn={isLoggedIn}
+              component={Profile}
+              handleLogout={handleLogout}
+              handleProfileSubmit={handleProfileSubmit}
+            />
+            <Route path="/signin">
+              <Login handleLoginSubmit={handleLoginSubmit} />
+            </Route>
+            <Route path="/signup">
+              <Register
+                handleRegisterSubmit={handleRegisterSubmit}
+                responseMessage={responseMessage}
+              />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+          <Footer />
+        </div>
       </CurrentUserContext.Provider>
     </>
   );

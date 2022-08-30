@@ -6,13 +6,25 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function MoviesCard({
   movie,
+  savedMovies,
   image,
   nameRU,
   duration,
-  isSaved,
   trailerLink,
   handleSaveMovie,
+  deleteMovieFromSaved,
+  type
 }) {
+
+  const isSaved =
+  type === "movies"
+    ? savedMovies.some((savedMovie) => {
+        return savedMovie.movieId === movie.id
+          ? (movie._id = savedMovie._id)
+          : "";
+      })
+    : true;
+
   const location = useLocation();
   function hoursPattern(duration) {
     return `${Math.floor(duration / 60)}ч${Math.round(
@@ -24,7 +36,6 @@ export default function MoviesCard({
     handleSaveMovie(movie);
   }
 
-  console.log(location.pathname);
   return (
     <div className="movie-card">
       <div className="movie-card__image-wrap">
@@ -40,7 +51,6 @@ export default function MoviesCard({
                 ? `${image}`
                 : `https://api.nomoreparties.co/${image.url}`)
             }
-            // src={`https://api.nomoreparties.co/${image}`}
             alt={nameRU}
           />
         </Link>
@@ -49,9 +59,9 @@ export default function MoviesCard({
             <button className="movie-card__remove-from-saved-icon">
               <img src={removeSavedIcon} alt="Удалить из сохраненных" />
             </button>
-            <button className="movie-card__saved-icon">
+            {/* <button className="movie-card__saved-icon">
               <img src={savedIcon} alt="Сохранено" />
-            </button>
+            </button> */}
           </>
         ) : (
           <button

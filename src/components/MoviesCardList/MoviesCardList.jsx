@@ -2,7 +2,14 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-export default function MoviesCardList({ filteredMovies, visibleMoviesCount, handleSaveMovie }) {
+export default function MoviesCardList({
+  filteredMovies,
+  savedMovies,
+  visibleMoviesCount,
+  handleSaveMovie,
+  deleteMovieFromSaved,
+  type
+}) {
   return (
     <section className="movies-card-list">
       {/* {[...new Array(12)].map((_, i) => {
@@ -10,10 +17,10 @@ export default function MoviesCardList({ filteredMovies, visibleMoviesCount, han
         })} */}
       {Array.isArray(filteredMovies)
         ? filteredMovies.slice(0, visibleMoviesCount).map((movie) => {
-          console.log(movie);
             return (
               <MoviesCard
-              movie={movie}
+                savedMovies={savedMovies}
+                movie={movie}
                 image={movie.image}
                 nameRU={movie.nameRU}
                 duration={movie.duration}
@@ -21,6 +28,8 @@ export default function MoviesCardList({ filteredMovies, visibleMoviesCount, han
                 isSaved={movie.isSaved}
                 key={movie.id}
                 handleSaveMovie={handleSaveMovie}
+                deleteMovieFromSaved={deleteMovieFromSaved}
+                type={type}
               />
             );
           })

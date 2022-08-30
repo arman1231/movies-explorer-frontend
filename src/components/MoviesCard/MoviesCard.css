@@ -42,12 +42,17 @@
   margin: 0;
   padding: 0;
   background-color: unset;
-  display: none;
   position: absolute;
   top: 14px;
   right: 14px;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
 }
+
+.movie-card__remove-from-saved-icon:hover {
+  transform: scale(1.4);
+}
+
 .movie-card__trailer-link:hover + .movie-card__savebtn {
   display: block;
 }

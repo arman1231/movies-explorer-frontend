@@ -87,7 +87,7 @@ class MainApi {
       headers: this._headers,
       credentials: "include",
       body: JSON.stringify({
-        country: (movie.country ? movie.country : 'Empty'),
+        country: movie.country ? movie.country : "Empty",
         director: movie.director,
         duration: movie.duration,
         year: movie.year,
@@ -95,7 +95,7 @@ class MainApi {
         image: `https://api.nomoreparties.co/${movie.image.url}`,
         trailerLink: movie.trailerLink,
         nameRU: movie.nameRU,
-        nameEN: (movie.nameEN ? movie.nameEN : 'Empty'),
+        nameEN: movie.nameEN ? movie.nameEN : "Empty",
         thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
         movieId: movie.id,
       }),
@@ -105,6 +105,14 @@ class MainApi {
         return res;
       })
       .catch((err) => console.log(err));
+  }
+
+  deleteMovieFromSaved(_id) {
+    return fetch(`${this._baseUrl}/movies/${_id}`, {
+      method: "DELETE",
+      headers: this._headers,
+      credentials: "include",
+    }).then(this._getResponseData);
   }
 }
 
