@@ -125,6 +125,10 @@
   border-radius: 50%;
 }
 
+.search-form__empty-query {
+  color: red;
+}
+
 @media screen and (max-width: 767px) and (min-width: 320px) {
   .search-form__input {
     font-size: 18px;

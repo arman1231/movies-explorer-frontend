@@ -2,14 +2,13 @@ import React from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import "./SavedMovies.css";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { mainApi } from "../../utils/MainApi";
 
-export default function SavedMovies({ savedMovies, visibleMoviesCount, deleteMovieFromSaved }) {
+export default function SavedMovies({ savedMovies, visibleMoviesCount, deleteMovieFromSaved, handleSavedMoviesSearch ,handleToggleShortMovie }) {
   return (
     <section className="saved-movies">
       <div className="container">
-        <SearchForm />
-        <MoviesCardList filteredMovies={savedMovies} visibleMoviesCount={visibleMoviesCount} />
+        <SearchForm handleSearchSubmit={handleSavedMoviesSearch} handleToggleShortMovie={handleToggleShortMovie}/>
+        <MoviesCardList filteredMovies={savedMovies} visibleMoviesCount={visibleMoviesCount} deleteMovieFromSaved={deleteMovieFromSaved} type="saved-movies" />
       </div>
     </section>
   );

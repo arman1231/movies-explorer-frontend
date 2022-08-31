@@ -97,7 +97,7 @@ class MainApi {
         nameRU: movie.nameRU,
         nameEN: movie.nameEN ? movie.nameEN : "Empty",
         thumbnail: `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
-        movieId: movie.id,
+        movieId: movie.id ? movie.id : '-',
       }),
     })
       .then(this._checkResponse)

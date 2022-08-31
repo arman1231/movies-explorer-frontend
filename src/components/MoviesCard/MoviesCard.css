@@ -35,6 +35,10 @@
   top: 14px;
   right: 14px;
   cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.movie-card__saved-icon:hover {
+  transform: scale(1.3);
 }
 
 .movie-card__remove-from-saved-icon {
@@ -58,7 +62,7 @@
 }
 
 .movie-card__trailer-link:hover ~ .movie-card__saved-icon {
-  display: none;
+  /* display: none; */
 }
 
 .movie-card__trailer-link:hover + .movie-card__remove-from-saved-icon {

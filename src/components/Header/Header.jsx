@@ -16,12 +16,20 @@ export default function Header({ isLoggedIn }) {
       case "/signup":
         headerClass = "hide";
         return headerClass;
+      case "/movies":
+        headerClass = "header";
+        return headerClass;
+      case "/saved-movies":
+        headerClass = "header";
+        return headerClass;
+      case "/profile":
+        headerClass = "header";
+        return headerClass;
       case "/":
         headerClass = "header header_index-page";
-        // isLoggedIn ? headerClass = "header" : headerClass = "header header_index-page";
         return headerClass;
       default:
-        headerClass = "header";
+        headerClass = "hide";
         return headerClass;
     }
   }
@@ -32,11 +40,9 @@ export default function Header({ isLoggedIn }) {
   }
 
   return (
-    <header 
-    // className="header"
+    <header
       className={
         defineClassName()
-        // location.pathname === "/" ? "header header_index-page" : "header"
       }
     >
       <div className="container">
@@ -58,14 +64,26 @@ export default function Header({ isLoggedIn }) {
                   >
                     Главная
                   </Link>
-                  <Link to="/movies" className="header__link link" onClick={showBurger}>
+                  <Link
+                    to="/movies"
+                    className="header__link link"
+                    onClick={showBurger}
+                  >
                     Фильмы
                   </Link>
-                  <Link to="/saved-movies" className="header__link link" onClick={showBurger}>
+                  <Link
+                    to="/saved-movies"
+                    className="header__link link"
+                    onClick={showBurger}
+                  >
                     Сохранённые фильмы
                   </Link>
                 </div>
-                <Link className="header__account link" to="/profile" onClick={showBurger}>
+                <Link
+                  className="header__account link"
+                  to="/profile"
+                  onClick={showBurger}
+                >
                   Аккаунт{" "}
                   <img
                     className="header__account-icon"
@@ -85,10 +103,18 @@ export default function Header({ isLoggedIn }) {
               </div>
               <Navigation>
                 <div className="header__links-to-movies">
-                  <Link to="/signup" className="header__link link" onClick={showBurger}>
+                  <Link
+                    to="/signup"
+                    className="header__link link"
+                    onClick={showBurger}
+                  >
                     Регистрация
                   </Link>
-                  <Link to="/signin" className="header__link_green link" onClick={showBurger}>
+                  <Link
+                    to="/signin"
+                    className="header__link_green link"
+                    onClick={showBurger}
+                  >
                     Войти
                   </Link>
                 </div>

@@ -1,6 +1,12 @@
 import React from "react";
 import "./App.css";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useLocation,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -32,7 +38,9 @@ function App() {
   const [visibleMoviesCount, setVisibleMoviesCount] = React.useState(
     defineCardsPerPageCount(width)
   );
-  const location = useLocation();
+  const [toggleButtonState, setToggleButtonState] = React.useState(null);
+  const [serachResust, setSearchResult] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   function fetchMovies() {
     moviesApi
@@ -46,6 +54,7 @@ function App() {
       });
   }
   React.useEffect(() => {
+    
     mainApi
       .getUser()
       .then((user) => {
@@ -62,9 +71,9 @@ function App() {
         setSavedMovies([]);
         setInitialMovies([]);
         localStorage.clear();
-        console.log(err);
+        // console.log(err);
       });
-  }, []);
+    }, []);
 
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -134,16 +143,40 @@ function App() {
       .logout()
       .then(() => {
         setIsLoggedIn(false);
+        localStorage.clear();
         history.push("/");
       })
       .catch((err) => console.log(err));
   }
 
-  function handleSearchSubmit(search) {
+  function handleSearchSubmit(search, toggleButtonState) {
     const filteredMovies = initialMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
     });
-    setFilteredMovies(filteredMovies);
+    const sortedMovies = filteredMovies.filter((movie) => {
+      return movie.duration < 40;
+    });
+    !toggleButtonState ? setFilteredMovies(filteredMovies) : setFilteredMovies(sortedMovies);
+    // setFilteredMovies(filteredMovies);
+    setToggleButtonState(toggleButtonState);
+  }
+
+  function handleToggleShortMovie(checked) {
+    setSearchResult(filteredMovies);
+    // const searchResult = filteredMovies; 
+    const sortedMovies = filteredMovies.filter((movie) => {
+      return movie.duration < 40;
+    });
+    checked ? setFilteredMovies(sortedMovies) : setFilteredMovies(serachResust);
+  }
+
+  function handleToggleShortSavedMovie(checked) {
+    setSearchResult(savedMovies);
+    // const searchResult = filteredMovies; 
+    const sortedMovies = savedMovies.filter((movie) => {
+      return movie.duration < 40;
+    });
+    checked ? setSavedMovies(sortedMovies) : setSavedMovies(serachResust);
   }
 
   function handleLoadMoreClick() {
@@ -154,7 +187,6 @@ function App() {
     mainApi
       .getSavedMovies()
       .then((movies) => {
-        console.log(movies);
         setSavedMovies(movies);
       })
       .catch((err) => {
@@ -173,16 +205,30 @@ function App() {
       });
   }
 
-  function handleSavedMoviesSearch() {
-    mainApi
-      .getSavedMovies()
-      .then((movies) => {
-        setSavedMovies(movies);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+  function handleSavedMoviesSearch(search, toggleButtonState) {
+    console.log('click');
+    const filteredMovies = savedMovies.filter((movie) => {
+      return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
+    });
+    const sortedMovies = filteredMovies.filter((movie) => {
+      return movie.duration < 40;
+    });
+    !toggleButtonState ? setSavedMovies(filteredMovies) : setSavedMovies(sortedMovies);
+    // setFilteredMovies(filteredMovies);
+    setToggleButtonState(toggleButtonState);
   }
+
+  // function handleSavedMoviesSearch() {
+  //   mainApi
+  //     .getSavedMovies()
+  //     .then((movies) => {
+  //       setSavedMovies(movies);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   function deleteMovieFromSaved(savedMovieId) {
     mainApi
@@ -216,16 +262,21 @@ function App() {
               handleLoadMoreClick={handleLoadMoreClick}
               handleSaveMovie={handleSaveMovie}
               deleteMovieFromSaved={deleteMovieFromSaved}
+              handleToggleShortMovie={handleToggleShortMovie}
+              isLoading={isLoading}
             />
             <ProtectedRoute
               path="/saved-movies"
               isLoggedIn={isLoggedIn}
               component={SavedMovies}
-              handleSearchSubmit={handleSearchSubmit}
+              handleSavedMoviesSearch={handleSavedMoviesSearch}
+              handleSearchSubmit={handleSavedMoviesSearch}
               visibleMoviesCount={visibleMoviesCount}
               savedMovies={savedMovies}
               getSavedMovies={getSavedMovies}
               deleteMovieFromSaved={deleteMovieFromSaved}
+              handleToggleShortMovie={handleToggleShortSavedMovie}
+              isLoading={isLoading}
             />
             <ProtectedRoute
               path="/profile"
@@ -235,13 +286,21 @@ function App() {
               handleProfileSubmit={handleProfileSubmit}
             />
             <Route path="/signin">
-              <Login handleLoginSubmit={handleLoginSubmit} />
+              {isLoggedIn ? (
+                <Redirect to="/movies" />
+              ) : (
+                <Login handleLoginSubmit={handleLoginSubmit} />
+              )}
             </Route>
             <Route path="/signup">
-              <Register
-                handleRegisterSubmit={handleRegisterSubmit}
-                responseMessage={responseMessage}
-              />
+              {isLoggedIn ? (
+                <Redirect to="/movies" />
+              ) : (
+                <Register
+                  handleRegisterSubmit={handleRegisterSubmit}
+                  responseMessage={responseMessage}
+                />
+              )}
             </Route>
             <Route path="*">
               <NotFound />

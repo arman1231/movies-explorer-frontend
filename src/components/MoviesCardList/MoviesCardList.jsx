@@ -1,6 +1,8 @@
 import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import { useLocation } from "react-router-dom";
+import Preloader from "../Preloader/Preloader";
 
 export default function MoviesCardList({
   filteredMovies,
@@ -8,17 +10,25 @@ export default function MoviesCardList({
   visibleMoviesCount,
   handleSaveMovie,
   deleteMovieFromSaved,
-  type
+  type,
+  isLoading,
 }) {
+  console.log(isLoading);
+  const location = useLocation().pathname;
   return (
     <section className="movies-card-list">
       {/* {[...new Array(12)].map((_, i) => {
           return <MoviesCard />;
         })} */}
-      {Array.isArray(filteredMovies)
+
+        { 
+        isLoading ? <Preloader /> :
+        location === '/movies' ?
+        Array.isArray(filteredMovies)
         ? filteredMovies.slice(0, visibleMoviesCount).map((movie) => {
             return (
               <MoviesCard
+                key={movie._id ? movie._id : movie.id}
                 savedMovies={savedMovies}
                 movie={movie}
                 image={movie.image}
@@ -26,7 +36,24 @@ export default function MoviesCardList({
                 duration={movie.duration}
                 trailerLink={movie.trailerLink}
                 isSaved={movie.isSaved}
-                key={movie.id}
+                handleSaveMovie={handleSaveMovie}
+                deleteMovieFromSaved={deleteMovieFromSaved}
+                type={type}
+              />
+            );
+          })
+        : "": Array.isArray(filteredMovies)
+        ? filteredMovies.map((movie) => {
+            return (
+              <MoviesCard
+                key={movie._id ? movie._id : movie.id}
+                savedMovies={savedMovies}
+                movie={movie}
+                image={movie.image}
+                nameRU={movie.nameRU}
+                duration={movie.duration}
+                trailerLink={movie.trailerLink}
+                isSaved={movie.isSaved}
                 handleSaveMovie={handleSaveMovie}
                 deleteMovieFromSaved={deleteMovieFromSaved}
                 type={type}
@@ -34,6 +61,7 @@ export default function MoviesCardList({
             );
           })
         : ""}
+      {}
     </section>
   );
 }

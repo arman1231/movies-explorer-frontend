@@ -13,17 +13,16 @@ export default function MoviesCard({
   trailerLink,
   handleSaveMovie,
   deleteMovieFromSaved,
-  type
+  type,
 }) {
-
   const isSaved =
-  type === "movies"
-    ? savedMovies.some((savedMovie) => {
-        return savedMovie.movieId === movie.id
-          ? (movie._id = savedMovie._id)
-          : "";
-      })
-    : true;
+    type === "movies"
+      ? savedMovies.some((savedMovie) => {
+          return savedMovie.movieId === movie.id
+            ? (movie._id = savedMovie._id)
+            : "";
+        })
+      : true;
 
   const location = useLocation();
   function hoursPattern(duration) {
@@ -34,6 +33,9 @@ export default function MoviesCard({
 
   function handleSaveClick() {
     handleSaveMovie(movie);
+  }
+  function handleDeleteClick() {
+    deleteMovieFromSaved(movie._id);
   }
 
   return (
@@ -47,21 +49,24 @@ export default function MoviesCard({
           <img
             className="movie-card__image"
             src={
-              (location.pathname != "/movies"
+              location.pathname !== "/movies"
                 ? `${image}`
-                : `https://api.nomoreparties.co/${image.url}`)
+                : `https://api.nomoreparties.co/${image.url}`
             }
             alt={nameRU}
           />
         </Link>
         {isSaved ? (
           <>
-            <button className="movie-card__remove-from-saved-icon">
-              <img src={removeSavedIcon} alt="Удалить из сохраненных" />
-            </button>
-            {/* <button className="movie-card__saved-icon">
-              <img src={savedIcon} alt="Сохранено" />
-            </button> */}
+            {type === "movies" ? (
+              <button className="movie-card__saved-icon">
+                <img src={savedIcon} alt="Сохранено" />
+              </button>
+            ) : (
+              <button className="movie-card__remove-from-saved-icon" onClick={handleDeleteClick}>
+                <img src={removeSavedIcon} alt="Удалить из сохраненных" />
+              </button>
+            )}
           </>
         ) : (
           <button

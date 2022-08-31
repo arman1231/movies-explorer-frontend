@@ -1,23 +1,56 @@
 import React from "react";
 import "./SearchForm.css";
 import searchIcon from "../../images/search.svg";
+import { useLocation } from "react-router-dom";
 
 export default function SearchForm({
   handleSearchSubmit,
-  name,
-  state,
-  handleValueChange,
-  handleShortFilmsSearch,
+  handleToggleShortMovie
 }) {
+  const location = useLocation();
   const [search, setSearch] = React.useState("");
+  const [toggleButtonState, setToggleButtonState] = React.useState(false);
+  const [emptyQuery, setEmptyQuery] = React.useState('');
+
+
+  React.useEffect(() => {
+    if (location.pathname === "/movies") {
+      setSearch(localStorage.getItem("searchResult")
+      ? JSON.parse(localStorage.getItem("searchResult"))
+      : '');
+      setToggleButtonState(localStorage.getItem("toggleButtonState")
+      ? JSON.parse(localStorage.getItem("toggleButtonState"))
+      : false);
+      return () => {
+        setSearch(search);
+        setToggleButtonState(toggleButtonState);
+      }
+    } 
+
+  }, [])
+  
   function handleSubmit(e) {
     e.preventDefault();
-    handleSearchSubmit(search);
+    if (search.length >= 1) {
+      setEmptyQuery('')
+      handleSearchSubmit(search, toggleButtonState);
+      localStorage.setItem("searchResult", JSON.stringify(search));
+      localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+    } else {
+      setEmptyQuery('Введите поисковый запрос...')
+    }
   }
 
   function handleChangeSearch(e) {
     setSearch(e.target.value);
   }
+
+  function handleValueChange(e) {
+    handleToggleShortMovie(e.target.checked)
+    setToggleButtonState(e.target.checked)
+  }
+
+  // console.log(toggleButtonState);
   return (
     <form className="search-form" onSubmit={handleSubmit} noValidate>
       <fieldset className="search-form__data">
@@ -43,15 +76,14 @@ export default function SearchForm({
           <input
             className="search-form__checkbox"
             type="checkbox"
-            name={name}
-            checked={state}
             onChange={handleValueChange}
-            onInput={handleShortFilmsSearch}
+            checked={toggleButtonState}
           />
           <span className="search-form__slider"></span>
         </label>
         <span>Короткометражки</span>
       </div>
+      <span className="search-form__empty-query">{emptyQuery}</span>
     </form>
   );
 }
