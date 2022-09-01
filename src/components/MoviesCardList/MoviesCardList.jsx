@@ -13,7 +13,6 @@ export default function MoviesCardList({
   type,
   isLoading,
 }) {
-  console.log(isLoading);
   const location = useLocation().pathname;
   return (
     <section className="movies-card-list">

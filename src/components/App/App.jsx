@@ -73,7 +73,7 @@ function App() {
         localStorage.clear();
         // console.log(err);
       });
-    }, []);
+    }, [isLoggedIn]);
 
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -101,7 +101,6 @@ function App() {
     mainApi
       .createUser(name, email, password)
       .then((res) => {
-        console.log(res);
         setResponseMessage("Регистрация прошла успешно");
         setIsLoggedIn(true);
         history.push("/movies");
