@@ -1,4 +1,5 @@
-Public domain moviesexplorer.cherkharov.com
+Public domain: https://moviesexplorer.cherkharov.com
+Pull request: https://github.com/arman1231/movies-explorer-frontend/pull/2
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
