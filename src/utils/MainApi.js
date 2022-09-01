@@ -118,7 +118,7 @@ class MainApi {
 
 export const mainApi = new MainApi({
   baseUrl: `${window.location.protocol}${
-    process.env.REACT_APP_API_URL || "//localhost:3002"
+    process.env.REACT_APP_API_URL || "//localhost:3009"
   }`,
   headers: {
     Accept: "application/json",
