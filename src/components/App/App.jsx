@@ -228,25 +228,19 @@ function App() {
       });
   }
 
-
   function handleSavedMoviesSearch(search, toggleButtonState) {
-    const filteredMovies = savedMovies.filter((movie) => {
+    const searchKostyl = savedMovies.length < JSON.parse(localStorage.getItem("savedMovies2")).length ? JSON.parse(localStorage.getItem("savedMovies2")) : savedMovies;
+    const filteredMovies = searchKostyl.filter((movie) => {
       return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
     });
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
     if(!toggleButtonState) {
-      setSavedMovies(filteredMovies)
-      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(filteredMovies));
-      // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
+      setSavedMovies(filteredMovies);
     } else {
       setSavedMovies(sortedMovies);
-      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(sortedMovies));
-      // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
     }
-    // !toggleButtonState ? setSavedMovies(filteredMovies) : setSavedMovies(sortedMovies);
-    // setFilteredMovies(filteredMovies);
     setToggleButtonState(toggleButtonState);
   }
 
