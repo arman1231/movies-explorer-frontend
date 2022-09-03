@@ -59,7 +59,7 @@ export default function MoviesCard({
         {isSaved ? (
           <>
             {type === "movies" ? (
-              <button className="movie-card__saved-icon">
+              <button className="movie-card__saved-icon" onClick={handleDeleteClick}>
                 <img src={savedIcon} alt="Сохранено" />
               </button>
             ) : (

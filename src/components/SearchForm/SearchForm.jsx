@@ -25,17 +25,33 @@ export default function SearchForm({
         setSearch(search);
         setToggleButtonState(toggleButtonState);
       }
-    } 
-
+    } else {
+      // setSearch(localStorage.getItem("searchResultSaved")
+      // ? JSON.parse(localStorage.getItem("searchResultSaved"))
+      // : '');
+      // setToggleButtonState(localStorage.getItem("toggleButtonStateSaved")
+      // ? JSON.parse(localStorage.getItem("toggleButtonStateSaved"))
+      // : false);
+      return () => {
+        setSearch(search);
+        setToggleButtonState(toggleButtonState);
+      }
+    }
   }, [])
   
+
   function handleSubmit(e) {
     e.preventDefault();
     if (search.length >= 1) {
       setEmptyQuery('')
       handleSearchSubmit(search, toggleButtonState);
-      localStorage.setItem("searchResult", JSON.stringify(search));
-      localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+      if (location.pathname === "/movies") {
+        localStorage.setItem("searchResult", JSON.stringify(search));
+        localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+      } else {
+        // localStorage.setItem("searchResultSaved", JSON.stringify(search));
+        // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
+      }
     } else {
       setEmptyQuery('Введите поисковый запрос...')
     }
@@ -48,9 +64,25 @@ export default function SearchForm({
   function handleValueChange(e) {
     handleToggleShortMovie(e.target.checked)
     setToggleButtonState(e.target.checked)
+    location.pathname === '/movies' ? localStorage.setItem("toggleButtonState", JSON.stringify(e.target.checked)) :    localStorage.setItem("toggleButtonStateSaved", JSON.stringify(e.target.checked));
   }
 
-  // console.log(toggleButtonState);
+  function handleInput(e) {
+    e.preventDefault();
+    if (location.pathname === '/movies') {
+      if (search.length >= 1) {
+        handleSearchSubmit(search, toggleButtonState);
+        if (location.pathname === "/movies") {
+          localStorage.setItem("searchResult", JSON.stringify(search));
+          localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+        } else {
+          // localStorage.setItem("searchResultSaved", JSON.stringify(search));
+          // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
+        }
+      } 
+    }
+  }
+
   return (
     <form className="search-form" onSubmit={handleSubmit} noValidate>
       <fieldset className="search-form__data">
@@ -77,6 +109,7 @@ export default function SearchForm({
             className="search-form__checkbox"
             type="checkbox"
             onChange={handleValueChange}
+            onInput={handleInput}
             checked={toggleButtonState}
           />
           <span className="search-form__slider"></span>

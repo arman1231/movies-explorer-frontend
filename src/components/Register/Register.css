@@ -131,6 +131,15 @@
   color: #4285f4;
 }
 
+.register__response-message {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: red;
+}
+
 @media screen and (max-width: 767px) and (min-width: 320px) {
   .register {
     width: 230px;

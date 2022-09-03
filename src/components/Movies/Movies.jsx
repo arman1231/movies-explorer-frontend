@@ -15,10 +15,15 @@ export default function Movies({
   isLoading,
 }) {
   const [isHidden, setIsHidden] = React.useState(false);
+  // const [searchResultMovies, setSearchResultMovies] = React.useState([]);
   function handleClick(e) {
     e.preventDefault();
     handleLoadMoreClick();
   }
+  // React.useEffect(() => {
+  //   localStorage.getItem("searchResultMovies") ? setSearchResultMovies(JSON.parse(localStorage.getItem("searchResultMovies"))) : console.log('');
+    
+  // }, [])
 
   React.useEffect(() => {
     if (visibleMoviesCount >= filteredMovies.length) {
@@ -27,7 +32,6 @@ export default function Movies({
       setIsHidden(false);
     }
   }, [visibleMoviesCount, filteredMovies, isHidden]);
-
   return (
     <section className="movies">
       <div className="container">
@@ -37,6 +41,7 @@ export default function Movies({
         />
 
         <MoviesCardList
+          // filteredMovies={filteredMovies.length === 0 ? searchResultMovies : filteredMovies}
           filteredMovies={filteredMovies}
           savedMovies={savedMovies}
           visibleMoviesCount={visibleMoviesCount}

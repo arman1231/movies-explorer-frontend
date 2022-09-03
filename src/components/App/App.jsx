@@ -54,7 +54,6 @@ function App() {
       });
   }
   React.useEffect(() => {
-    
     mainApi
       .getUser()
       .then((user) => {
@@ -101,9 +100,13 @@ function App() {
     mainApi
       .createUser(name, email, password)
       .then((res) => {
-        setResponseMessage("Регистрация прошла успешно");
-        setIsLoggedIn(true);
-        history.push("/movies");
+        if (res) {
+          setResponseMessage("Регистрация прошла успешно");
+          setIsLoggedIn(true);
+          history.push("/movies");
+        } else {
+          setResponseMessage("Произошла ошибка. Повторите еще раз.");
+        }
       })
       .catch((err) => {
         setResponseMessage(err);
@@ -125,7 +128,7 @@ function App() {
       })
       .catch((err) => console.log(err));
   }
-
+  const [messageProfile, setMessageProfile] = React.useState('')
   function handleProfileSubmit(name, email) {
     mainApi
       .updateUser({ name, email })
@@ -134,6 +137,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setMessageProfile(err);
+      })
+      .finally(() => {
+        setMessageProfile('Изменения сохранены');
       });
   }
 
@@ -155,14 +162,20 @@ function App() {
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
-    !toggleButtonState ? setFilteredMovies(filteredMovies) : setFilteredMovies(sortedMovies);
-    // setFilteredMovies(filteredMovies);
+    if(!toggleButtonState) {
+      setFilteredMovies(filteredMovies);
+      localStorage.setItem('searchResultMovies', JSON.stringify(filteredMovies));
+      localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+    } else {
+      setFilteredMovies(sortedMovies);
+      localStorage.setItem('searchResultMovies', JSON.stringify(sortedMovies));
+      localStorage.setItem("toggleButtonState", JSON.stringify(toggleButtonState));
+    }
     setToggleButtonState(toggleButtonState);
   }
 
   function handleToggleShortMovie(checked) {
     setSearchResult(filteredMovies);
-    // const searchResult = filteredMovies; 
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
@@ -171,11 +184,20 @@ function App() {
 
   function handleToggleShortSavedMovie(checked) {
     setSearchResult(savedMovies);
-    // const searchResult = filteredMovies; 
     const sortedMovies = savedMovies.filter((movie) => {
       return movie.duration < 40;
     });
-    checked ? setSavedMovies(sortedMovies) : setSavedMovies(serachResust);
+
+    if (checked) {
+      setSavedMovies(sortedMovies)
+      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(sortedMovies));
+      // setMoviesFromSavedMoviesPage(sortedMovies)
+    } else {
+      setSavedMovies(serachResust)
+      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(serachResust));
+      // setMoviesFromSavedMoviesPage(serachResust)
+    }
+    // checked ? setSavedMovies(sortedMovies) : setSavedMovies(serachResust);
   }
 
   function handleLoadMoreClick() {
@@ -187,6 +209,7 @@ function App() {
       .getSavedMovies()
       .then((movies) => {
         setSavedMovies(movies);
+        localStorage.setItem('savedMovies2', JSON.stringify(movies));
       })
       .catch((err) => {
         console.log(err);
@@ -198,6 +221,7 @@ function App() {
       .saveMovie(movie)
       .then((newMovie) => {
         setSavedMovies([newMovie, ...savedMovies]);
+        localStorage.setItem('savedMovies2', JSON.stringify([newMovie, ...savedMovies]));
       })
       .catch((err) => {
         console.log(err);
@@ -206,41 +230,56 @@ function App() {
 
 
   function handleSavedMoviesSearch(search, toggleButtonState) {
-    console.log('click');
     const filteredMovies = savedMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
     });
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
-    !toggleButtonState ? setSavedMovies(filteredMovies) : setSavedMovies(sortedMovies);
+    if(!toggleButtonState) {
+      setSavedMovies(filteredMovies)
+      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(filteredMovies));
+      // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
+    } else {
+      setSavedMovies(sortedMovies);
+      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(sortedMovies));
+      // localStorage.setItem("toggleButtonStateSaved", JSON.stringify(toggleButtonState));
+    }
+    // !toggleButtonState ? setSavedMovies(filteredMovies) : setSavedMovies(sortedMovies);
     // setFilteredMovies(filteredMovies);
     setToggleButtonState(toggleButtonState);
   }
-
-  // function handleSavedMoviesSearch() {
-  //   mainApi
-  //     .getSavedMovies()
-  //     .then((movies) => {
-  //       setSavedMovies(movies);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
 
   function deleteMovieFromSaved(savedMovieId) {
     mainApi
       .deleteMovieFromSaved(savedMovieId)
       .then(() => {
-        setSavedMovies((prevState) =>
-          prevState.filter((item) => item._id !== savedMovieId)
-        );
+        setSavedMovies((prevState) => {
+          const stat = prevState.filter((item) => item._id !== savedMovieId);
+          localStorage.setItem('savedMovies2', JSON.stringify(stat));
+          return stat
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   }
+
+
+  const [searchResultMovies, setSearchResultMovies] = React.useState([]);
+  const [moviesFromSavedMoviesPage, setMoviesFromSavedMoviesPage] = React.useState([]);
+  React.useEffect(() => {
+    if (localStorage.getItem("searchResultMovies")) {
+      setSearchResultMovies(JSON.parse(localStorage.getItem("searchResultMovies")))
+    }
+    // if (localStorage.getItem("setMoviesFromSavedMoviesPage")) {
+    //   setMoviesFromSavedMoviesPage(JSON.parse(localStorage.getItem("setMoviesFromSavedMoviesPage")))
+    // }
+    // localStorage.getItem("searchResultMovies") ? setSearchResultMovies(JSON.parse(localStorage.getItem("searchResultMovies"))) : '';
+    // localStorage.getItem("setMoviesFromSavedMoviesPage") ? setMoviesFromSavedMoviesPage(JSON.parse(localStorage.getItem("setMoviesFromSavedMoviesPage"))) : ;
+    
+    // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(movies));
+  }, [])
   return (
     <>
       <CurrentUserContext.Provider value={currentUser}>
@@ -254,7 +293,7 @@ function App() {
               path="/movies"
               isLoggedIn={isLoggedIn}
               component={Movies}
-              filteredMovies={filteredMovies}
+              filteredMovies={filteredMovies.length === 0 ? searchResultMovies : filteredMovies}
               savedMovies={savedMovies}
               handleSearchSubmit={handleSearchSubmit}
               visibleMoviesCount={visibleMoviesCount}
@@ -271,6 +310,7 @@ function App() {
               handleSavedMoviesSearch={handleSavedMoviesSearch}
               handleSearchSubmit={handleSavedMoviesSearch}
               visibleMoviesCount={visibleMoviesCount}
+              // savedMovies={moviesFromSavedMoviesPage.length > 0 ? moviesFromSavedMoviesPage : savedMovies}
               savedMovies={savedMovies}
               getSavedMovies={getSavedMovies}
               deleteMovieFromSaved={deleteMovieFromSaved}
@@ -283,6 +323,7 @@ function App() {
               component={Profile}
               handleLogout={handleLogout}
               handleProfileSubmit={handleProfileSubmit}
+              successMessage={messageProfile}
             />
             <Route path="/signin">
               {isLoggedIn ? (
