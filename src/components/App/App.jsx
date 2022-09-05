@@ -25,10 +25,11 @@ import {
   defineLoadMoreStep,
   defineCardsPerPageCount,
 } from "../../utils/loadMoreConditions";
+import { SHORT_MOVIE_DURATION } from "../../utils/constants";
 
 function App() {
   const history = useHistory();
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(undefined);
   const [currentUser, setCurrentUser] = React.useState({});
   const [initialMovies, setInitialMovies] = React.useState([]);
   const [filteredMovies, setFilteredMovies] = React.useState([]);
@@ -43,6 +44,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   function fetchMovies() {
+    setIsLoading(true);
     moviesApi
       .getMovies()
       .then((movies) => {
@@ -51,6 +53,9 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false)
       });
   }
   React.useEffect(() => {
@@ -73,6 +78,30 @@ function App() {
         // console.log(err);
       });
     }, [isLoggedIn]);
+
+    React.useEffect(() => {
+      if (isLoggedIn) {
+        mainApi
+        .getUser()
+        .then((user) => {
+          if (!user) {
+            console.log("Вы не авторизованны");
+          } else {
+            setCurrentUser(user);
+            setIsLoggedIn(true);
+          }
+        })
+        .catch((err) => {
+          setIsLoggedIn(false);
+          setCurrentUser({});
+          setSavedMovies([]);
+          setInitialMovies([]);
+          localStorage.clear();
+          // console.log(err);
+        });
+      }
+
+      }, [isLoggedIn]);
 
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -134,17 +163,19 @@ function App() {
     mainApi
       .updateUser({ name, email })
       .then((res) => {
-        setCurrentUser(res);
+        if (res) {
+          setCurrentUser(res);
+          setMessageProfile('Изменения сохранены');
+        } else {
+          setResponseMessage('Произошла ошибка');
+        }
+
       })
       .catch((err) => {
         console.log(err);
         setResponseMessage('Произошла ошибка');
-      })
-      .finally(() => {
-        setMessageProfile('Изменения сохранены');
       });
   }
-
   function handleLogout() {
     mainApi
       .logout()
@@ -170,7 +201,7 @@ function App() {
     });
     filteredMovies.length === 0 ? setResponseMessage('Ничего не найдено') : setResponseMessage('');
     const sortedMovies = filteredMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < SHORT_MOVIE_DURATION;
     });
     if(!toggleButtonState) {
       setFilteredMovies(filteredMovies);
@@ -187,7 +218,7 @@ function App() {
   function handleToggleShortMovie(checked) {
     setSearchResult(filteredMovies);
     const sortedMovies = filteredMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < SHORT_MOVIE_DURATION;
     });
     checked ? setFilteredMovies(sortedMovies) : setFilteredMovies(serachResust);
   }
@@ -195,7 +226,7 @@ function App() {
   function handleToggleShortSavedMovie(checked) {
     setSearchResult(savedMovies);
     const sortedMovies = savedMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < SHORT_MOVIE_DURATION;
     });
 
     if (checked) {
@@ -210,6 +241,7 @@ function App() {
   }
 
   function getSavedMovies() {
+    setIsLoading(true);
     mainApi
       .getSavedMovies()
       .then((movies) => {
@@ -218,6 +250,9 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -240,7 +275,7 @@ function App() {
     });
     filteredMovies.length === 0 ? setResponseMessage('Ничего не найдено') : setResponseMessage('');
     const sortedMovies = filteredMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < SHORT_MOVIE_DURATION;
     });
     if(!toggleButtonState) {
       

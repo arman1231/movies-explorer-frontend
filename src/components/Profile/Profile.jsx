@@ -15,6 +15,7 @@ export default function Profile({
   const [isValidName, setIsValidName] = React.useState(false);
   const [emailError, setEmailError] = React.useState("");
   const [nameError, setNameError] = React.useState("");
+  const [mes, setMes] = React.useState(successMessage);
 
   function handleChangeName(e) {
     const input = e.target;
@@ -51,7 +52,7 @@ export default function Profile({
     e.preventDefault();
     handleLogout();
   }
-  const [mes, setMes] = React.useState(successMessage);
+
 
   React.useEffect(() => {
     if (responseMessage.length > 1) {
@@ -60,7 +61,14 @@ export default function Profile({
     }
   }, [responseMessage]);
 
-
+  React.useEffect(() => {
+    setMes(successMessage);
+    return () => {
+      successMessage = '';
+      setMes('');
+    }
+  }, [successMessage])
+  console.log(mes);
   function handleEdit(e) {
     e.preventDefault();
     document.querySelector(".profile__edit-button").classList.add("hide");
@@ -76,15 +84,18 @@ export default function Profile({
   function handleSubmit(e) {
     e.preventDefault();
     handleProfileSubmit(name, email);
-    setMes(successMessage);
+    console.log(name, email);
     document.querySelector(".profile__edit-button").classList.remove("hide");
     document.querySelector(".profile__submit-button").classList.add("hide");
     document.querySelector(".profile__logout-button").classList.remove("hide");
     document
       .querySelectorAll(".profile__input")
       .forEach((input) => (input.disabled = true));
+      setMes(successMessage);
+      console.log(successMessage);
   }
   const isDisabled = currentUser.name === name && currentUser.email === email;
+
   return (
     <section className="profile">
       <div className="container">

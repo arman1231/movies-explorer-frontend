@@ -11,6 +11,7 @@ export default function SavedMovies({
   handleToggleShortMovie,
   responseMessage,
   searchResultSavedMoviesApp,
+  isLoading,
 }) {
   const [actualMovies, setActualMovies] = React.useState([]);
   const [searchResultSavedMovies, setSearchResultSavedMovies] = React.useState(searchResultSavedMoviesApp)
@@ -45,6 +46,7 @@ export default function SavedMovies({
           visibleMoviesCount={visibleMoviesCount}
           deleteMovieFromSaved={deleteMovieFromSaved}
           type="saved-movies"
+          isLoading={isLoading}
         />
       </div>
     </section>
