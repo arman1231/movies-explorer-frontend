@@ -9,13 +9,26 @@ export default function SavedMovies({
   deleteMovieFromSaved,
   handleSavedMoviesSearch,
   handleToggleShortMovie,
+  responseMessage,
+  searchResultSavedMoviesApp,
 }) {
   const [actualMovies, setActualMovies] = React.useState([]);
+  const [searchResultSavedMovies, setSearchResultSavedMovies] = React.useState(searchResultSavedMoviesApp)
+  React.useEffect(() => {
+    if (actualMovies.length !== searchResultSavedMovies.length) {
+      setActualMovies(JSON.parse(localStorage.getItem('searchResultSavedMovies')))
+    }
+  }, [searchResultSavedMoviesApp]);
   React.useEffect(() => {
     if (actualMovies.length === 0) {
       setActualMovies(JSON.parse(localStorage.getItem('savedMovies2')))
     } else {
       setActualMovies(savedMovies)
+    }
+
+    return () => {
+      setSearchResultSavedMovies([])
+      localStorage.setItem('searchResultSavedMovies', JSON.stringify([]))
     }
   }, [savedMovies]);
   return (
@@ -24,6 +37,7 @@ export default function SavedMovies({
         <SearchForm
           handleSearchSubmit={handleSavedMoviesSearch}
           handleToggleShortMovie={handleToggleShortMovie}
+          responseMessage={responseMessage}
         />
         <MoviesCardList
           // filteredMovies={savedMovies}

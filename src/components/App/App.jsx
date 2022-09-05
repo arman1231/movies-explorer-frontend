@@ -120,6 +120,7 @@ function App() {
       .then((data) => {
         if (!data) {
           console.log("Что-то пошло не так!");
+          setResponseMessage('Что-то пошло не так!')
         }
         if (data.token) {
           setIsLoggedIn(true);
@@ -137,7 +138,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setMessageProfile(err);
+        setResponseMessage('Произошла ошибка');
       })
       .finally(() => {
         setMessageProfile('Изменения сохранены');
@@ -149,6 +150,14 @@ function App() {
       .logout()
       .then(() => {
         setIsLoggedIn(false);
+        setCurrentUser({})
+        setFilteredMovies([]);
+        setSavedMovies([]);
+        setResponseMessage('');
+        setInitialMovies([]);
+        setToggleButtonState(false);
+        setSearchResultMovies([]);
+        setSearchResult([])
         localStorage.clear();
         history.push("/");
       })
@@ -159,6 +168,7 @@ function App() {
     const filteredMovies = initialMovies.filter((movie) => {
       return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
     });
+    filteredMovies.length === 0 ? setResponseMessage('Ничего не найдено') : setResponseMessage('');
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
@@ -189,15 +199,10 @@ function App() {
     });
 
     if (checked) {
-      setSavedMovies(sortedMovies)
-      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(sortedMovies));
-      // setMoviesFromSavedMoviesPage(sortedMovies)
+      setSavedMovies(sortedMovies);
     } else {
-      setSavedMovies(serachResust)
-      // localStorage.setItem('setMoviesFromSavedMoviesPage', JSON.stringify(serachResust));
-      // setMoviesFromSavedMoviesPage(serachResust)
+      setSavedMovies(serachResust);
     }
-    // checked ? setSavedMovies(sortedMovies) : setSavedMovies(serachResust);
   }
 
   function handleLoadMoreClick() {
@@ -227,19 +232,25 @@ function App() {
         console.log(err);
       });
   }
-
+  const [searchResultSavedMoviesApp, setSearchResultSavedMoviesApp] = React.useState([])
   function handleSavedMoviesSearch(search, toggleButtonState) {
     const searchKostyl = savedMovies.length < JSON.parse(localStorage.getItem("savedMovies2")).length ? JSON.parse(localStorage.getItem("savedMovies2")) : savedMovies;
     const filteredMovies = searchKostyl.filter((movie) => {
       return movie.nameRU.toLowerCase().indexOf(search.toLowerCase()) > -1;
     });
+    filteredMovies.length === 0 ? setResponseMessage('Ничего не найдено') : setResponseMessage('');
     const sortedMovies = filteredMovies.filter((movie) => {
       return movie.duration < 40;
     });
     if(!toggleButtonState) {
-      setSavedMovies(filteredMovies);
+      
+      localStorage.setItem('searchResultSavedMovies', JSON.stringify(filteredMovies))
+      setSearchResultSavedMoviesApp(filteredMovies)
+      // setSavedMovies(filteredMovies);
     } else {
-      setSavedMovies(sortedMovies);
+      localStorage.setItem('searchResultSavedMovies', JSON.stringify(sortedMovies))
+      setSearchResultSavedMoviesApp(sortedMovies)
+      // setSavedMovies(sortedMovies);
     }
     setToggleButtonState(toggleButtonState);
   }
@@ -296,6 +307,7 @@ function App() {
               deleteMovieFromSaved={deleteMovieFromSaved}
               handleToggleShortMovie={handleToggleShortMovie}
               isLoading={isLoading}
+              responseMessage={responseMessage}
             />
             <ProtectedRoute
               path="/saved-movies"
@@ -304,12 +316,13 @@ function App() {
               handleSavedMoviesSearch={handleSavedMoviesSearch}
               handleSearchSubmit={handleSavedMoviesSearch}
               visibleMoviesCount={visibleMoviesCount}
-              // savedMovies={moviesFromSavedMoviesPage.length > 0 ? moviesFromSavedMoviesPage : savedMovies}
               savedMovies={savedMovies}
               getSavedMovies={getSavedMovies}
               deleteMovieFromSaved={deleteMovieFromSaved}
               handleToggleShortMovie={handleToggleShortSavedMovie}
               isLoading={isLoading}
+              responseMessage={responseMessage}
+              searchResultSavedMoviesApp={searchResultSavedMoviesApp}
             />
             <ProtectedRoute
               path="/profile"
@@ -318,12 +331,13 @@ function App() {
               handleLogout={handleLogout}
               handleProfileSubmit={handleProfileSubmit}
               successMessage={messageProfile}
+              responseMessage={responseMessage}
             />
             <Route path="/signin">
               {isLoggedIn ? (
                 <Redirect to="/movies" />
               ) : (
-                <Login handleLoginSubmit={handleLoginSubmit} />
+                <Login handleLoginSubmit={handleLoginSubmit} responseMessage={responseMessage}/>
               )}
             </Route>
             <Route path="/signup">

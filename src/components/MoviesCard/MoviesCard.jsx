@@ -15,16 +15,21 @@ export default function MoviesCard({
   deleteMovieFromSaved,
   type,
 }) {
-  const isSaved =
+  const location = useLocation();
+  const isSaved = location.pathname === '/saved-movies' ? 
     type === "movies"
       ? savedMovies.some((savedMovie) => {
           return savedMovie.movieId === movie.id
             ? (movie._id = savedMovie._id)
             : "";
         })
-      : true;
-
-  const location = useLocation();
+      : true : type === "movies"
+      ? JSON.parse(localStorage.getItem("savedMovies2")).some((savedMovie) => {
+        return savedMovie.movieId === movie.id
+            ? (movie._id = savedMovie._id)
+            : "";
+        })
+      : true
   function hoursPattern(duration) {
     return `${Math.floor(duration / 60)}ч${Math.round(
       (duration / 60 - Math.floor(duration / 60)) * 60

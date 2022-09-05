@@ -14,6 +14,11 @@ export default function MoviesCardList({
   isLoading,
 }) {
   const location = useLocation().pathname;
+  // const [updatedMovies, setUpdatedMovies] = React.useState(filteredMovies);
+  // React.useEffect(() => {
+  //   setUpdatedMovies(filteredMovies)
+  //   console.log(filteredMovies);
+  // }, [filteredMovies])
   return (
     <section className="movies-card-list">
       {/* {[...new Array(12)].map((_, i) => {
@@ -38,6 +43,7 @@ export default function MoviesCardList({
                 handleSaveMovie={handleSaveMovie}
                 deleteMovieFromSaved={deleteMovieFromSaved}
                 type={type}
+                filteredMovies={filteredMovies}
               />
             );
           })

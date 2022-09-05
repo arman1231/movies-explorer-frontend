@@ -5,7 +5,8 @@ import { useLocation } from "react-router-dom";
 
 export default function SearchForm({
   handleSearchSubmit,
-  handleToggleShortMovie
+  handleToggleShortMovie,
+  responseMessage
 }) {
   const location = useLocation();
   const [search, setSearch] = React.useState("");
@@ -116,7 +117,7 @@ export default function SearchForm({
         </label>
         <span>Короткометражки</span>
       </div>
-      <span className="search-form__empty-query">{emptyQuery}</span>
+      <span className="search-form__empty-query">{emptyQuery || responseMessage}</span>
     </form>
   );
 }

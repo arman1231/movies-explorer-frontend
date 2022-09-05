@@ -13,6 +13,7 @@ export default function Movies({
   deleteMovieFromSaved,
   handleToggleShortMovie,
   isLoading,
+  responseMessage
 }) {
   const [isHidden, setIsHidden] = React.useState(false);
   // const [searchResultMovies, setSearchResultMovies] = React.useState([]);
@@ -20,10 +21,6 @@ export default function Movies({
     e.preventDefault();
     handleLoadMoreClick();
   }
-  // React.useEffect(() => {
-  //   localStorage.getItem("searchResultMovies") ? setSearchResultMovies(JSON.parse(localStorage.getItem("searchResultMovies"))) : console.log('');
-    
-  // }, [])
 
   React.useEffect(() => {
     if (visibleMoviesCount >= filteredMovies.length) {
@@ -38,6 +35,7 @@ export default function Movies({
         <SearchForm
           handleSearchSubmit={handleSearchSubmit}
           handleToggleShortMovie={handleToggleShortMovie}
+          responseMessage={responseMessage}
         />
 
         <MoviesCardList
