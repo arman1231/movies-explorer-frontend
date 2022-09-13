@@ -1,3 +1,6 @@
+.movies {
+  flex-grow: 1;
+}
 .movies__loadmore {
   margin: 50px 0 80px 0;
   width: 100%;

@@ -12,8 +12,17 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .hide {
   display: none;
+}
+
+.show {
+  display: block;
 }
 
 .link{
@@ -32,4 +41,9 @@ body {
 
 .button:hover {
   opacity: 0.8;
+}
+
+.button:disabled, button[disabled] {
+  background-color: #F8F8F8;
+  color: #000;
 }

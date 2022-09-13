@@ -76,7 +76,11 @@
 .header__link_to-main {
   display: none;
 }
-
+@media (max-width: 1280px) {
+  .header__links {
+    width: 50%;
+  }
+}
 @media (max-width: 768px) {
   .header__burger {
     display: block;
